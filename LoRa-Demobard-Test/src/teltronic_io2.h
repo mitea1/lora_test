@@ -18,6 +18,7 @@ extern "C" {
 
 /*----- Header-Files -------------------------------------------------------*/
 #include <stm32l1xx.h>				/* Processor STM32F407IG				*/
+#include "stm32l1xx_rcc.h"
 //#include <TELTRONIC.h>					/* TELTRONIC Module							*/
 
 /*----- Macros -------------------------------------------------------------*/
@@ -103,40 +104,15 @@ typedef struct _TELTRONIC_Port_Pin_t {
 	GPIOMode_TypeDef GPIO_Mode;
 	uint8_t GPIO_AF;
 } TELTRONIC_Port_Pin_t;
-///**
-// * @brief	ADC port names.
-// */
-//typedef enum _TELTRONIC_IO2_ADC_CHANNEL {
-//	TELTRONIC_IO2_ADC_PORT0 = 0,			/**< Port 0, Poti					*/
-//	TELTRONIC_IO2_ADC_PORT1 = 1,			/**< Port 1							*/
-//	TELTRONIC_IO2_ADC_PORT2 = 2				/**< Port 2							*/
-//} TELTRONIC_IO2_ADC_CHANNEL;
-//
-///**
-// * @brief	GPIO Out mode definitions.
-// */
-//typedef enum _TELTRONIC_IO2_GPIO_OUT_MODE {
-//	TELTRONIC_IO2_GPIO_OUT_MODE_GPIO = GPIO_Mode_OUT,	/**< GPIO Out mode as
-//													 *	 GPIO				*/
-//	TELTRONIC_IO2_GPIO_OUT_MODE_PWM = GPIO_Mode_AF		/**< GPIO Out mode as
-//													 *	 PWM				*/
-//} TELTRONIC_IO2_GPIO_OUT_MODE;
-//
-///**
-// * @brief	DAC port names.
-// */
-//typedef enum _TELTRONIC_IO2_DAC_CHANNEL {
-//	TELTRONIC_IO2_DAC_OUT0 = TELTRONIC_IO2_LTC2622_ADDR_A,	/**< DAC Out 0			*/
-//	TELTRONIC_IO2_DAC_OUT1 = TELTRONIC_IO2_LTC2622_ADDR_B,	/**< DAC Out 1			*/
-//	TELTRONIC_IO2_DAC_OUT_BOTH = TELTRONIC_IO2_LTC2622_ADDR_ALL	/**< DAC Out both	*/
-//} TELTRONIC_IO2_DAC_CHANNEL;
-//
+
+
 /**
  * @brief	ADC port names.
  */
 typedef enum _TELTRONIC_IO2_SPI_CHANNEL {
 	TELTRONIC_IO2_nPSC0 = 0,				/**< DAC, SPI0						*/
-	TELTRONIC_IO2_nPSC1 = 1					/**< External, SPI1					*/
+	TELTRONIC_IO2_nPSC1 = 1,					/**< External, SPI1					*/
+	TELTRONIC_IO2_nPSC2 = 2 // Edited bolzs2
 } TELTRONIC_IO2_SPI_CHANNEL;
 
 ///**
@@ -158,9 +134,18 @@ typedef enum _TELTRONIC_IO2_SPI_CHANNEL {
 //} TELTRONIC_IO2_PWM_PHASE;
 
  /* Function Prototypes */
-//extern void TELTRONIC_IO2_SPI_Select(TELTRONIC_IO2_SPI_CHANNEL select);
-//extern void TELTRONIC_IO2_SPI_CS_Out(uint8_t cs);
-//extern void TELTRONIC_IO2_SPI_Send(uint16_t data);
-//extern void TELTRONIC_IO2_SPI_Receive(uint16_t *pValue);
+extern void teltronic_IO2_Init(void);
+extern void TELTRONIC_IO2_SPI_Select(TELTRONIC_IO2_SPI_CHANNEL select);
+extern void TELTRONIC_IO2_SPI_CS_Out(uint8_t SPI_nbr, uint8_t cs);
+extern void TELTRONIC_IO2_SPI_Send(uint8_t SPI_Nbr, uint16_t data);
+//extern void TELTRONIC_IO2_SPI2_Send(uint16_t data);
+//extern void TELTRONIC_IO2_SPI3_Send(uint16_t data);
+extern void TELTRONIC_IO2_SPI_Receive(uint8_t SPI_Nbr, uint16_t *pValue);
+//extern void TELTRONIC_IO2_SPI2_Receive(uint16_t *pValue);
+//extern void TELTRONIC_IO2_SPI3_Receive(uint16_t *pValue);
 extern void TELTRONIC_GPIO_Init(TELTRONIC_Port_Pin_t *pPortPinAssociation,
                             GPIO_InitTypeDef *pGPIO_InitStruct, uint8_t size);
+
+
+extern void RCC_Configuration(void);
+extern void GPIO_SPI_Configure(void);
