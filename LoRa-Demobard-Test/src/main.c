@@ -21,13 +21,13 @@
  **
  *****************************************************************************
  */
+
 /* Includes */
-//#include <stddef.h>
 #include <stdio.h>
 #include "stm32l1xx.h"
 #include "stm32l1xx_rcc.h"
 #include "stm32l1xx_gpio.h"
-#include "teltronic_io2.h"
+#include "SPI.h"
 #include "Flash.h"
 
 
@@ -75,22 +75,22 @@ int main(void)
 	uint8_t size = 5;
 
 	/* Initialize SPI */
-	teltronic_IO2_Init();
+	teltronic_SPI_Init();
 
-	TELTRONIC_IO2_SPI_CS_Out(3, Bit_RESET);
+	TELTRONIC_SPI_CS_Out(3, Bit_RESET);
 
 	for (;;) {
 		/* Enable Chip Select at SPI1 */
-		TELTRONIC_IO2_SPI_CS_Out(1, Bit_RESET);
+		TELTRONIC_SPI_CS_Out(1, Bit_RESET);
 
-		writeToFlash(&celsius[0],size);
+		writeToFlash(celsius,size);
 
 		/* Disable Chip Select at SPI1 */
-		TELTRONIC_IO2_SPI_CS_Out(1, Bit_SET);
+		TELTRONIC_SPI_CS_Out(1, Bit_SET);
 
 
 		/* Enable Chip Select at SPI1 */
-		TELTRONIC_IO2_SPI_CS_Out(1, Bit_RESET);
+		TELTRONIC_SPI_CS_Out(1, Bit_RESET);
 
 		readFromFlash(&spiData[0],size);
 
